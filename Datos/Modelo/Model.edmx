@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AUTOLOTEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="t_Auto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoAutomovil" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Marca" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TipoCombustible" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cilindraje" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Transmision" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Condiciones" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Atributos" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Imagenes" Type="image" />
+        </EntityType>
+        <EntityType Name="t_Localidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Departamento" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ciudad" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_Orden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarroId" Type="int" Nullable="false" />
+          <Property Name="UsuarioId" Type="int" Nullable="false" />
+          <Property Name="LocalizacionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="t_Usuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TipoUsuario" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AUTOLOTE.dbo.getAllOrdenDetalle' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="getAllOrdenDetalle">
+          <Key>
+            <PropertyRef Name="id_Orden" />
+            <PropertyRef Name="auto_Marca" />
+            <PropertyRef Name="auto_Modelo" />
+            <PropertyRef Name="auto_Atributo" />
+            <PropertyRef Name="auto_Condiciones" />
+            <PropertyRef Name="auto_Cilindraje" />
+            <PropertyRef Name="cliente_Nombre" />
+            <PropertyRef Name="lugar_Ciudad" />
+            <PropertyRef Name="lugar_Departamento" />
+          </Key>
+          <Property Name="id_Orden" Type="int" Nullable="false" />
+          <Property Name="auto_Marca" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="auto_Modelo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="auto_Atributo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="auto_Condiciones" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="auto_Cilindraje" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="cliente_Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lugar_Ciudad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lugar_Departamento" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AUTOLOTE.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="start_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="end_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
+          <Property Name="modify_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__t_Orden__CarroId__35BCFE0A">
+          <End Role="t_Auto" Type="Self.t_Auto" Multiplicity="1" />
+          <End Role="t_Orden" Type="Self.t_Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Auto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="t_Orden">
+              <PropertyRef Name="CarroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__t_Orden__Localiz__37A5467C">
+          <End Role="t_Localidad" Type="Self.t_Localidad" Multiplicity="1" />
+          <End Role="t_Orden" Type="Self.t_Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Localidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="t_Orden">
+              <PropertyRef Name="LocalizacionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__t_Orden__Usuario__36B12243">
+          <End Role="t_Usuarios" Type="Self.t_Usuarios" Multiplicity="1" />
+          <End Role="t_Orden" Type="Self.t_Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="t_Orden">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AUTOLOTEModelStoreContainer">
+          <EntitySet Name="t_Auto" EntityType="Self.t_Auto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_Localidad" EntityType="Self.t_Localidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_Orden" EntityType="Self.t_Orden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="t_Usuarios" EntityType="Self.t_Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="getAllOrdenDetalle" EntityType="Self.getAllOrdenDetalle" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [getAllOrdenDetalle].[id_Orden] AS [id_Orden], 
+    [getAllOrdenDetalle].[auto_Marca] AS [auto_Marca], 
+    [getAllOrdenDetalle].[auto_Modelo] AS [auto_Modelo], 
+    [getAllOrdenDetalle].[auto_Atributo] AS [auto_Atributo], 
+    [getAllOrdenDetalle].[auto_Condiciones] AS [auto_Condiciones], 
+    [getAllOrdenDetalle].[auto_Cilindraje] AS [auto_Cilindraje], 
+    [getAllOrdenDetalle].[cliente_Nombre] AS [cliente_Nombre], 
+    [getAllOrdenDetalle].[lugar_Ciudad] AS [lugar_Ciudad], 
+    [getAllOrdenDetalle].[lugar_Departamento] AS [lugar_Departamento]
+    FROM [dbo].[getAllOrdenDetalle] AS [getAllOrdenDetalle]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
+            <DefiningQuery>SELECT 
+    [database_firewall_rules].[id] AS [id], 
+    [database_firewall_rules].[name] AS [name], 
+    [database_firewall_rules].[start_ip_address] AS [start_ip_address], 
+    [database_firewall_rules].[end_ip_address] AS [end_ip_address], 
+    [database_firewall_rules].[create_date] AS [create_date], 
+    [database_firewall_rules].[modify_date] AS [modify_date]
+    FROM [sys].[database_firewall_rules] AS [database_firewall_rules]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__t_Orden__CarroId__35BCFE0A" Association="Self.FK__t_Orden__CarroId__35BCFE0A">
+            <End Role="t_Auto" EntitySet="t_Auto" />
+            <End Role="t_Orden" EntitySet="t_Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__t_Orden__Localiz__37A5467C" Association="Self.FK__t_Orden__Localiz__37A5467C">
+            <End Role="t_Localidad" EntitySet="t_Localidad" />
+            <End Role="t_Orden" EntitySet="t_Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__t_Orden__Usuario__36B12243" Association="Self.FK__t_Orden__Usuario__36B12243">
+            <End Role="t_Usuarios" EntitySet="t_Usuarios" />
+            <End Role="t_Orden" EntitySet="t_Orden" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AUTOLOTEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="t_Auto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoAutomovil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoCombustible" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cilindraje" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Transmision" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Condiciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Atributos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Imagenes" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="t_Orden" Relationship="Self.FK__t_Orden__CarroId__35BCFE0A" FromRole="t_Auto" ToRole="t_Orden" />
+        </EntityType>
+        <EntityType Name="t_Localidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_Orden" Relationship="Self.FK__t_Orden__Localiz__37A5467C" FromRole="t_Localidad" ToRole="t_Orden" />
+        </EntityType>
+        <EntityType Name="t_Orden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarroId" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioId" Type="Int32" Nullable="false" />
+          <Property Name="LocalizacionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="t_Auto" Relationship="Self.FK__t_Orden__CarroId__35BCFE0A" FromRole="t_Orden" ToRole="t_Auto" />
+          <NavigationProperty Name="t_Localidad" Relationship="Self.FK__t_Orden__Localiz__37A5467C" FromRole="t_Orden" ToRole="t_Localidad" />
+          <NavigationProperty Name="t_Usuarios" Relationship="Self.FK__t_Orden__Usuario__36B12243" FromRole="t_Orden" ToRole="t_Usuarios" />
+        </EntityType>
+        <EntityType Name="t_Usuarios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="t_Orden" Relationship="Self.FK__t_Orden__Usuario__36B12243" FromRole="t_Usuarios" ToRole="t_Orden" />
+        </EntityType>
+        <Association Name="FK__t_Orden__CarroId__35BCFE0A">
+          <End Role="t_Auto" Type="Self.t_Auto" Multiplicity="1" />
+          <End Role="t_Orden" Type="Self.t_Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Auto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="t_Orden">
+              <PropertyRef Name="CarroId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__t_Orden__Localiz__37A5467C">
+          <End Role="t_Localidad" Type="Self.t_Localidad" Multiplicity="1" />
+          <End Role="t_Orden" Type="Self.t_Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Localidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="t_Orden">
+              <PropertyRef Name="LocalizacionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__t_Orden__Usuario__36B12243">
+          <End Role="t_Usuarios" Type="Self.t_Usuarios" Multiplicity="1" />
+          <End Role="t_Orden" Type="Self.t_Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="t_Orden">
+              <PropertyRef Name="UsuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AUTOLOTEEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="t_Auto" EntityType="Self.t_Auto" />
+          <EntitySet Name="t_Localidad" EntityType="Self.t_Localidad" />
+          <EntitySet Name="t_Orden" EntityType="Self.t_Orden" />
+          <EntitySet Name="t_Usuarios" EntityType="Self.t_Usuarios" />
+          <AssociationSet Name="FK__t_Orden__CarroId__35BCFE0A" Association="Self.FK__t_Orden__CarroId__35BCFE0A">
+            <End Role="t_Auto" EntitySet="t_Auto" />
+            <End Role="t_Orden" EntitySet="t_Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__t_Orden__Localiz__37A5467C" Association="Self.FK__t_Orden__Localiz__37A5467C">
+            <End Role="t_Localidad" EntitySet="t_Localidad" />
+            <End Role="t_Orden" EntitySet="t_Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK__t_Orden__Usuario__36B12243" Association="Self.FK__t_Orden__Usuario__36B12243">
+            <End Role="t_Usuarios" EntitySet="t_Usuarios" />
+            <End Role="t_Orden" EntitySet="t_Orden" />
+          </AssociationSet>
+          <EntitySet Name="getAllOrdenDetalle" EntityType="AUTOLOTEModel.getAllOrdenDetalle" />
+          <EntitySet Name="database_firewall_rules" EntityType="AUTOLOTEModel.database_firewall_rules" />
+        </EntityContainer>
+        <EntityType Name="getAllOrdenDetalle">
+          <Key>
+            <PropertyRef Name="id_Orden" />
+            <PropertyRef Name="auto_Marca" />
+            <PropertyRef Name="auto_Modelo" />
+            <PropertyRef Name="auto_Atributo" />
+            <PropertyRef Name="auto_Condiciones" />
+            <PropertyRef Name="auto_Cilindraje" />
+            <PropertyRef Name="cliente_Nombre" />
+            <PropertyRef Name="lugar_Ciudad" />
+            <PropertyRef Name="lugar_Departamento" />
+          </Key>
+          <Property Name="id_Orden" Type="Int32" Nullable="false" />
+          <Property Name="auto_Marca" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="auto_Modelo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="auto_Atributo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="auto_Condiciones" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="auto_Cilindraje" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="cliente_Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lugar_Ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lugar_Departamento" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="start_ip_address" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="end_ip_address" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AUTOLOTEModelStoreContainer" CdmEntityContainer="AUTOLOTEEntities1">
+          <EntitySetMapping Name="t_Auto">
+            <EntityTypeMapping TypeName="AUTOLOTEModel.t_Auto">
+              <MappingFragment StoreEntitySet="t_Auto">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoAutomovil" ColumnName="TipoAutomovil" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="TipoCombustible" ColumnName="TipoCombustible" />
+                <ScalarProperty Name="Cilindraje" ColumnName="Cilindraje" />
+                <ScalarProperty Name="Transmision" ColumnName="Transmision" />
+                <ScalarProperty Name="Condiciones" ColumnName="Condiciones" />
+                <ScalarProperty Name="Atributos" ColumnName="Atributos" />
+                <ScalarProperty Name="Imagenes" ColumnName="Imagenes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_Localidad">
+            <EntityTypeMapping TypeName="AUTOLOTEModel.t_Localidad">
+              <MappingFragment StoreEntitySet="t_Localidad">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_Orden">
+            <EntityTypeMapping TypeName="AUTOLOTEModel.t_Orden">
+              <MappingFragment StoreEntitySet="t_Orden">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CarroId" ColumnName="CarroId" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="LocalizacionId" ColumnName="LocalizacionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_Usuarios">
+            <EntityTypeMapping TypeName="AUTOLOTEModel.t_Usuarios">
+              <MappingFragment StoreEntitySet="t_Usuarios">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="getAllOrdenDetalle">
+            <EntityTypeMapping TypeName="AUTOLOTEModel.getAllOrdenDetalle">
+              <MappingFragment StoreEntitySet="getAllOrdenDetalle">
+                <ScalarProperty Name="lugar_Departamento" ColumnName="lugar_Departamento" />
+                <ScalarProperty Name="lugar_Ciudad" ColumnName="lugar_Ciudad" />
+                <ScalarProperty Name="cliente_Nombre" ColumnName="cliente_Nombre" />
+                <ScalarProperty Name="auto_Cilindraje" ColumnName="auto_Cilindraje" />
+                <ScalarProperty Name="auto_Condiciones" ColumnName="auto_Condiciones" />
+                <ScalarProperty Name="auto_Atributo" ColumnName="auto_Atributo" />
+                <ScalarProperty Name="auto_Modelo" ColumnName="auto_Modelo" />
+                <ScalarProperty Name="auto_Marca" ColumnName="auto_Marca" />
+                <ScalarProperty Name="id_Orden" ColumnName="id_Orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="database_firewall_rules">
+            <EntityTypeMapping TypeName="AUTOLOTEModel.database_firewall_rules">
+              <MappingFragment StoreEntitySet="database_firewall_rules">
+                <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
+                <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
